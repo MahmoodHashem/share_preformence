@@ -16,15 +16,15 @@ class Main extends StatefulWidget {
   @override
   State<Main> createState() => _MainState();
 }
+
 class _MainState extends State<Main> {
+
+  String savedName = '';
+  String savedPassword = '';
 
   TextEditingController name = TextEditingController();
   TextEditingController password = TextEditingController();
 
-  // final pre = SharedPreferences.getInstance();
-
-  // String alName = name.text;
-  // String pasw = password.text;
 
   @override
   void initState() {
@@ -40,8 +40,10 @@ class _MainState extends State<Main> {
    Person person = Person(name.text, password.text);
 
    PreferenceService preferenceService = PreferenceService();
-
    preferenceService.savePerson(person);
+
+   name.clear();
+   password.clear();
 
   }
 
@@ -50,8 +52,8 @@ class _MainState extends State<Main> {
     PreferenceService preferenceService = PreferenceService();
     final person = await preferenceService.getPerson();
     setState(() {
-   name.text = person.name;
-   password.text = person.password;
+   savedName = person.name;
+   savedPassword= person.password;
     });
 
 
@@ -99,14 +101,14 @@ class _MainState extends State<Main> {
                 ),
 
                 Container(
-                  child: Text("Name: ${name.text}"),
+                  child: Text("Name: $savedName"),
                 ), 
                 
                 SizedBox(
                  height: 10, 
                 ), 
                 Container(
-                  child: Text('Age: ${password.text}'),
+                  child: Text('Age: $savedPassword}'),
                 ),
                 
                 ElevatedButton(onPressed: getPerson, child: Text('Show'))
